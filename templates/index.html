@@ -1,0 +1,314 @@
+<!-- 
+NLP Applications Assignment 2 – Part A
+Group No.: 66
+
+Neural Machine Translation with BLEU Evaluation
+Medical / Healthcare Domain
+
+Team Members and Contributions:
+Sr.No	BITS ID	       Name 	                Contribution
+1	   2024aa05973	Sakshi Niranjan Kulkarni	    100%
+2	   2024aa05445	Dheeraj Kholia	                100%
+3	   2024aa05629	Aditi Tyagi	                    100%
+4	   2024ab05283	Addvija Shekhar Medhekar	    100%
+5	   2024aa05249	Balamurugan G	                100% 
+-->
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Medical NMT with BLEU Evaluation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      overflow: hidden;
+      border: 2px solid #e2e6ea;
+      background: white;
+    }
+
+    header {
+      background: #0067C5;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.6em;
+      font-weight: 600;
+    }
+
+    .content {
+      padding: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    textarea,
+    input[type="file"] {
+      width: 85%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #cfd8e3;
+      font-size: 1rem;
+      background: #fff;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    textarea:focus {
+      border-color: #0067C5;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0,103,197,0.15);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      background: #0067C5;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover { background: #004080; }
+
+    .section {
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #e2e6ea;
+    }
+
+    .section h3 {
+      color: #0067C5;
+      margin-bottom: 12px;
+    }
+
+    .result-box {
+      background: #f7f9fc;
+      border: 1px solid #e2e6ea;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #dfe6ee;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    table {
+      width: 60%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #dfe6ee;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #eef4fb;
+      color: #254872;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #eef4fb;
+      color: #254872;
+      border: 1px solid #d7e5f6;
+      padding: 6px 10px;
+      border-radius: 18px;
+      font-size: .85rem;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    /* Premium Results Layout */
+    .results-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .result-card {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 20px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      border: 1px solid #e6edf5;
+      transition: transform 0.2s ease;
+    }
+
+    .result-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .translation-box {
+      background: #f9fbff;
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid #e2eaf5;
+    }
+
+    .metrics-box {
+      background: #f4f7fb;
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid #dfe8f3;
+    }
+
+    .metrics-box h4 {
+      margin-top: 0;
+      color: #0067C5;
+    }
+
+    .bleu-highlight {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #004080;
+      margin-bottom: 10px;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #dde6f2;
+    }
+
+    .metric-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 900px) {
+      .result-card {
+          grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>Medical Neural Machine Translation with BLEU Evaluation</header>
+
+    <div class="content">
+
+      <!-- ============================= -->
+      <!-- Translation Form Section      -->
+      <!-- ============================= -->
+      <form method="POST" enctype="multipart/form-data">
+
+        <label>Source Text (English - Medical Domain):</label>
+        <textarea name="source_text" required placeholder="Enter medical sentence here...">
+{{ source_text if source_text else "" }}</textarea>
+
+        <label>Reference Translation (Manual Entry):</label>
+        <textarea name="reference_text" placeholder="Paste hindi reference translation here...">
+{{ reference_text if reference_text else "" }}</textarea>
+
+        <label>OR Upload Reference File (.txt):</label>
+        <input type="file" name="reference_file" accept=".txt">
+
+        <div class="actions">
+          <button type="submit">Translate & Evaluate</button>
+          <button type="reset">Reset</button>
+        </div>
+
+      </form>
+
+      <!-- ============================= -->
+      <!-- Results Section               -->
+      <!-- ============================= -->
+      <div class="section">
+        <h3>Translation Results:</h3>
+
+        {% if results %}
+          {% for result in results %}
+            <div class="result-box">
+
+              <h4>Candidate Translation:</h4>
+              <pre>{{ result.translation }}</pre>
+
+              <div class="pill"><strong>BLEU Score: {{ result.bleu }}</strong></div>
+              <div class="pill"><strong>Brevity Penalty: {{ result.bp }}</strong></div>
+
+              <h4 style="margin-top:15px;">N-gram Precision:</h4>
+              <table>
+                <tr>
+                  <th>N-gram</th>
+                  <th>Precision</th>
+                </tr>
+                {% for k, v in result.ngrams.items() %}
+                <tr>
+                  <td>{{ k }}</td>
+                  <td>{{ v }}</td>
+                </tr>
+                {% endfor %}
+              </table>
+
+            </div>
+          {% endfor %}
+        {% else %}
+          <pre>No translations generated yet.</pre>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+<script>
+document.querySelector('button[type="reset"]').addEventListener('click', function() {
+  const resultsSection = document.querySelector('.section');
+  if (resultsSection) {
+    resultsSection.innerHTML = '<h3>Translation Results:</h3><pre>No translations generated yet.</pre>';
+  }
+});
+</script>
+
+</body>
+</html>
+
