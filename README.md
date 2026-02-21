@@ -1,7 +1,7 @@
 # Neural Machine Translation (NMT) for Medical Text with BLEU Evaluation
 
 This project implements a **Neural Machine Translation (NMT)** system for translating **medical/healthcare-related text** and evaluating translation quality using the **BLEU score**.
-It provides an interactive interface to translate text, compare against reference translations, and analyze n-gram precision scores.
+It provides an interactive interface for translating text, comparing it against reference translations, and analysing n-gram precision scores.
 
 ---
 
@@ -72,6 +72,7 @@ BP = 1                  if c > r
 
 BP = exp(1 - r/c)       if c ≤ r
 	​
+
 Where:
 * `c` = candidate length
 * `r` = reference length
@@ -96,7 +97,7 @@ The system allows:
 * Evaluating beam search variations
 * Comparing baseline vs fine-tuned models
 
-Each candidate translation receives:
+Each candidate's translation receives:
 * Individual BLEU score
 * Individual n-gram precision breakdown
 
