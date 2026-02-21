@@ -59,9 +59,9 @@ The BLEU score evaluates translation quality by comparing the candidate translat
 ####  Modified N-gram Precision
 
 For each n-gram level:
-Pn =  ∑candidate n-grams
-    ---------------------------
-      ∑clipped n-gram matches
+P_n = (Sum of clipped n-gram matches) 
+      --------------------------------
+      (Total candidate n-grams)
 
 * Prevents inflated scores from repeated words
 * Uses clipped counts based on reference frequency
