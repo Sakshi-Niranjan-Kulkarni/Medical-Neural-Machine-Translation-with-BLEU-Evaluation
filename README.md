@@ -59,9 +59,9 @@ The BLEU score evaluates translation quality by comparing the candidate translat
 ####  Modified N-gram Precision
 
 For each n-gram level:
-[
-P_n = \frac{\sum \text{clipped n-gram matches}}{\sum \text{candidate n-grams}}
-]
+Pn =  ∑candidate n-grams
+    ---------------------------
+      ∑clipped n-gram matches
 
 * Prevents inflated scores from repeated words
 * Uses clipped counts based on reference frequency
@@ -70,14 +70,9 @@ P_n = \frac{\sum \text{clipped n-gram matches}}{\sum \text{candidate n-grams}}
 
 #### Brevity Penalty (BP)
 
-[
-BP =
-\begin{cases}
-1 & \text{if } c > r \
-e^{(1 - r/c)} & \text{if } c \le r
-\end{cases}
-]
-
+BP={ 1              if c>r
+   { exp(1−r/c)     if c≤r
+	​
 Where:
 
 * `c` = candidate length
@@ -89,9 +84,7 @@ This penalizes overly short translations.
 
 #### Final BLEU Score
 
-[
-BLEU = BP \times \exp \left( \sum_{n=1}^{N} w_n \log P_n \right)
-]
+BLEU=BP × exp(n=1∑N​wn​logPn​)
 
 * Typically computed up to 4-grams
 * Uniform weights (`w_n = 0.25`) for 1–4 grams
