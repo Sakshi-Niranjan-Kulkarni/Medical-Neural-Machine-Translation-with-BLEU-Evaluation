@@ -22,7 +22,7 @@ The application:
 
 ## User Interface Features
 
-### 🔹 Input
+### Input
 
 * Text box for **source medical text**
 * Option to:
