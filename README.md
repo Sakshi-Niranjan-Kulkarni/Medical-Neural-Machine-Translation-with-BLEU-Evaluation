@@ -44,7 +44,7 @@ The application:
 
 ## Translation & Evaluation Implementation
 
-### 1️⃣ NMT Translation
+### 1. NMT Translation
 
 The system uses Transformer-based models such as:
 * `Helsinki-NLP MarianMT models`
@@ -52,7 +52,7 @@ These models are pre-trained on large bilingual corpora and can be fine-tuned fo
 
 ---
 
-### 2️⃣ BLEU Score Computation
+### 2. BLEU Score Computation
 
 The BLEU score evaluates translation quality by comparing the candidate translation with one or more reference translations.
 
@@ -98,7 +98,7 @@ BLEU = BP \times \exp \left( \sum_{n=1}^{N} w_n \log P_n \right)
 
 ---
 
-### 3️⃣ Multiple Candidate Evaluation
+### 3. Multiple Candidate Evaluation
 
 The system allows:
 * Comparing multiple model outputs
