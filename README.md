@@ -83,7 +83,7 @@ This penalizes overly short translations.
 
 #### Final BLEU Score
 
-BLEU=BP × exp(n=1∑N​wn​logPn​)
+BLEU = BP × exp(n=1∑N​wn​logPn​)
 
 * Typically computed up to 4-grams
 * Uniform weights (`w_n = 0.25`) for 1–4 grams
